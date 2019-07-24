@@ -5,7 +5,6 @@ add_dependencies(${PROJECT_NAME} ${MASTER_PROJECT_NAME})
 
 # Headers
 target_include_directories(${PROJECT_NAME} PUBLIC
-    ${Matlab_INCLUDE_DIRS}
     ${RBDL_INCLUDE_DIR}
     ${RBDL_INCLUDE_DIR}/..
     ${Boost_INCLUDE_DIRS}
@@ -21,7 +20,9 @@ IF(CMAKE_BUILD_TYPE MATCHES "Debug")
 else()
     SET(${MASTER_PROJECT_NAME}_LIB_NAME ${MASTER_PROJECT_NAME})
 endif()
-if (UNIX)
+if (APPLE)
+    string(CONCAT ${MASTER_PROJECT_NAME}_LIB_NAME "lib" ${${MASTER_PROJECT_NAME}_LIB_NAME} ".dylib")
+elseif (UNIX)
     string(CONCAT ${MASTER_PROJECT_NAME}_LIB_NAME "lib" ${${MASTER_PROJECT_NAME}_LIB_NAME} ".so")
 elseif(_WIN32)
     message("TO BE TESTED")
